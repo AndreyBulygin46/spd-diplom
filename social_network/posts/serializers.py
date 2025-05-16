@@ -16,7 +16,9 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ['author', 'comment', 'created_at']
+        fields = ['author',
+                  'comment',
+                  'created_at']
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -27,7 +29,13 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ['id', 'author', 'text', 'image', 'created_at', 'comments', 'likes_count']
+        fields = ['id',
+                  'author',
+                  'text',
+                  'image',
+                  'created_at',
+                  'comments',
+                  'likes_count']
 
     def get_comments(self, obj):
         queryset = obj.comments.all()

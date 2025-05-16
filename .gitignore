@@ -1,0 +1,9 @@
+.venv/
+.vscode/
+.idea/
+__pycache__/
+media/
+/.venv
+/.mypy_cache
+/social_network/posts/images
+/social_network/.env

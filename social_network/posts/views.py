@@ -1,5 +1,6 @@
-from django.shortcuts import render
-from rest_framework import generics, permissions
+from django.shortcuts import render, get_object_or_404
+from rest_framework import generics, permissions, status
+from rest_framework.response import Response
 from .models import Post, Like, Comment
 from .serializers import PostSerializer, LikeSerializer, CommentSerializer
 # Create your views here.
@@ -52,7 +53,11 @@ class CreateCommentView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         post_id = self.request.data.get('post')
-        post = Post.objects.get(pk=post_id)
+        try:
+            post = Post.objects.get(pk=post_id)
+        except Post.DoesNotExist:
+            return Response({"Ошибка": "Пост не найден."}, status=status.HTTP_404_NOT_FOUND)
+
         serializer.save(author=self.request.user, post=post)
 
 class ListCommentView(generics.ListAPIView):
@@ -101,7 +106,11 @@ class CreateLikeView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         post_id = self.request.data.get('post')
-        post = Post.objects.get(pk=post_id)
+        try:
+            post = Post.objects.get(pk=post_id)
+        except Post.DoesNotExist:
+            return Response({"Ошибка": "Пост не найден."}, status=status.HTTP_404_NOT_FOUND)
+
         user = self.request.user
 
         if Like.objects.filter(post=post, user=user).exists():
