@@ -13,7 +13,7 @@ class Post(models.Model):
     image = models.ImageField(upload_to='posts/images/',
                              blank=True)                  # изображение поста
     created_at = models.DateTimeField(auto_now_add=True)  # дата создания поста
-    likes_count = models.IntegerField(default=0)          # кол-во лайков поста
+
 
     def __str__(self):
         return self.text
